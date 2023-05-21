@@ -27,9 +27,18 @@ class HBNBCommand(cmd.Cmd):
         "Review": Review,
     }
 
-    types = {}
+    types = {
+        "number_rooms": int,
+        "number_bathrooms": int,
+        "max_guest": int,
+        "price_by_night": int,
+        "latitude": float,
+        "longitude": float,
+    }
 
     dot_cmds = ["all", "count", "show", "destroy", "update"]
+
+    storage_objects = getattr(storage, "_FileStorage__objects")
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -160,7 +169,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage._FileStorage__objects[key])
+            print(self.storage_objects[key])
         except KeyError:
             print("** no instance found **")
 
@@ -211,11 +220,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in self.storage_objects.items():
                 if k.split(".")[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in self.storage_objects.items():
                 print_list.append(str(v))
 
         print(print_list)
@@ -228,7 +237,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage._FileStorage__objects.items():
+        for k, v in self.storage_objects.items():
             if args == k.split(".")[0]:
                 count += 1
         print(count)

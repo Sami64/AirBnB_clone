@@ -5,7 +5,6 @@ import json
 
 class FileStorage:
     """Class manages storage of all instances for airbnb clone"""
-
     __file_path = "file.json"
     __objects = {}
 
