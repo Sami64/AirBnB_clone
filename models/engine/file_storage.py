@@ -13,7 +13,7 @@ class FileStorage:
     
     def new(self, obj):
         """ Sets in __objects the obj with key <obj class name>.id """
-        self.all().update({obj.to_dict()['__class__'] + '.'+obj.id: obj})
+        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
         """ Saves dict to file"""
