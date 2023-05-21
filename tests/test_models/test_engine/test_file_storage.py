@@ -12,10 +12,10 @@ class test_fileStorage(unittest.TestCase):
     def setUp(self):
         """Set up test environment"""
         del_list = []
-        for key in getattr(storage, "__FileStorage__objects").keys():
+        for key in getattr(storage, "__FileStorage.__objects").keys():
             del_list.append(key)
         for key in del_list:
-            del getattr(storage, "__FileStorage__objects")[key]
+            del getattr(storage, "__FileStorage.__objects")[key]
 
     def tearDown(self):
         """Remove storage file at end of tests"""

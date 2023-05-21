@@ -18,6 +18,9 @@ class BaseModel:
             kwargs['created_at'] = datetime.strptime(kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
 
             del kwargs['__class__']
+            if kwargs:
+                raise TypeError(
+                    f"Unexpected keyword argument(s) passed to {type(self).__name__}: {', '.join(kwargs.keys())}")
             self.__dict__.update(kwargs)
 
     def __str__(self):

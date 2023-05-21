@@ -7,8 +7,10 @@ from uuid import UUID
 import json
 import os
 
+
 class test_basemodel(unittest.TestCase):
     """Class for testing BaseModel class"""
+
     def __init__(self, *args, **kwargs):
         """Initialization of instance"""
         super().__init__(*args, **kwargs)
@@ -25,7 +27,7 @@ class test_basemodel(unittest.TestCase):
             os.remove("file.json")
         except:
             pass
-    
+
     def test_default(self):
         """Testing default"""
         i = self.value()
@@ -42,10 +44,10 @@ class test_basemodel(unittest.TestCase):
         """ """
         i = self.value()
         copy = i.to_dict()
-        copy.update({1:2})
+        copy.update({1: 2})
         with self.assertRaises(TypeError):
             i = self.value(**copy)
-    
+
     def test_save(self):
         """Testing save"""
         i = self.value()
@@ -54,7 +56,7 @@ class test_basemodel(unittest.TestCase):
         with open('file.json', 'r') as f:
             j = json.load(f)
             self.assertEqual(j[key], i.to_dict())
-    
+
     def test_todict(self):
         """ """
         i = self.value()
@@ -65,7 +67,7 @@ class test_basemodel(unittest.TestCase):
         """ """
         i = self.value()
         self.assertEqual(str(i), "[{}] ({}) {}".format(self.name, i.id, i.__dict__))
-    
+
     def test_kwargs_none(self):
         """ """
         n = {None: None}
@@ -74,9 +76,13 @@ class test_basemodel(unittest.TestCase):
 
     def test_kwargs_one(self):
         """ """
-        n = {'Name': 'Kevin'}
-        with self.assertRaises(TypeError):
+        n = {'Name': 'Kevin', '__class__': 'BaseModel', 'updated_at': '2022-01-01T12:00:00.000000',
+             'created_at': '2022-01-01T12:00:00.000000'}
+        print(f"kwargs: {n}")
+        print(f"self.value: {self.value}")
+        with self.assertRaises(TypeError) as context:
             new = self.value(**n)
+        self.assertEqual(str(context.exception), "Unexpected keyword argument(s) passed to BaseModel: 'Name'")
 
     def test_id(self):
         """ """
